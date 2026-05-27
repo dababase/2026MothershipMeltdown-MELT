@@ -1,476 +1,433 @@
 /* ==========================================================================
    1. BASE RESETS & UNIVERSAL STYLES
    ========================================================================== */
-   h1 { text-align: center; }
 
-  * {
-    box-sizing: border-box;
-  }
-  
-  body, html {
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #0d0e12; /* Prevents white flashes on load */
-  }
-  
-  /* Premium dark mode background color for the main workspace */
-  .app-shell {
-    background-color: #0d0e12 !important;
-    background-image: none !important; 
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  main {
-    flex: 1;
-    width: 100%;
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 24px 16px;
-  }
-  
-  /* ==========================================================================
-     2. SPACE HEADER BANNER & LOGO
-     ========================================================================== */
-  .app-header {
-    background-image: url('./assets/space-bg.jpeg') !important;
-    background-size: cover !important;
-    background-position: center !important;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
-    border-bottom: 2px solid #1f2937;
-  }
-  
-  .app-logo {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    max-height: 110px;
-  }
-  
-  /* ==========================================================================
-     3. TYPOGRAPHY & LIGHT TEXT FOR DARK BACKGROUND
-     ========================================================================== */
-  .screen {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    background: #1f2937; /* Dark slate container for login/name screens */
-    padding: 32px 24px;
-    border-radius: 16px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-    margin-top: 20px;
-  }
-  
-  .rank-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-  
-  .judge-name {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #ffffff !important; 
-  }
-  
-  .save-status {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #34d399 !important; /* Vibrant neon emerald green for dark mode */
-    margin-top: 2px;
-  }
-  
-  .muted, .screen p {
-    color: #9ca3af !important; 
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-  
-  .muted.small {
-    color: #9ca3af !important;
-    font-size: 0.87rem;
-    margin-bottom: 20px;
-  }
-  
-  /* ==========================================================================
-     4. RANKING LIST & CARDS
-     ========================================================================== */
-  .rank-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .rank-item {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s;
-  }
-  
-  .drag-handle {
-    color: #9ca3af;
-    font-size: 1.25rem;
-    cursor: grab;
-    padding: 0 12px 0 4px;
-    user-select: none;
-  }
-  
-  .drag-handle:active {
-    cursor: grabbing;
-  }
-  
-  .position {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: #374151;
-    min-width: 32px;
-  }
-  
-  .entry-num {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: #111827;
-    flex: 1;
-  }
-  
-  /* ==========================================================================
-     5. INTERACTIVE BUTTONS & INPUTS
-     ========================================================================== */
-  .input {
-    width: 100%;
-    padding: 14px 16px;
-    font-size: 1rem;
-    border: 1px solid #4b5563;
-    border-radius: 8px;
-    background-color: #374151;
-    color: #ffffff;
-    outline: none;
-  }
-  
-  .input:focus {
-    border-color: #3b82f6;
-  }
-  
-  .btn-primary, .btn-submit {
-    background-color: #10b981;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.15s ease;
-  }
-  
-  .btn-primary:hover, .btn-submit:hover {
-    background-color: #059669;
-  }
-  
-  /* Entry Note Action Buttons (Updated to Custom Gold) */
-  .notes-btn {
-    background: #E5CE71;
-    border: 1px solid #cbb55f; /* Slightly deeper gold border for crisp edges */
-    color: #111827; /* Dark charcoal icon color for perfect contrast */
-    border-radius: 8px;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-  
-  .notes-btn:hover {
-    background: #d3be64; /* Smooth, slightly darker shift on click/hover */
-    transform: scale(1.03);
-  }
-  
-  /* ==========================================================================
-     6. PREMIUM MODAL INTERFACE & FORM FACTORS
-     ========================================================================== */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px); 
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  @media (min-width: 640px) {
-    .modal-overlay {
-      align-items: center;
-    }
-  }
-  
-  .modal {
-    background: #ffffff;
-    width: 100%;
-    max-width: 540px;
-    max-height: 85vh;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.3);
-    animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  @media (min-width: 640px) {
-    .modal {
-      border-radius: 16px;
-    }
-  }
-  
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 24px 16px 24px;
-    border-bottom: 1px solid #e5e7eb;
-  }
-  
-  .modal-title {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    font-size: 1.35rem;
-    font-weight: 700;
-    color: #111827;
-    letter-spacing: -0.02em;
-  }
-  
-  .modal-close-btn {
-    background: #f3f4f6;
-    border: none;
-    color: #4b5563;
-    font-size: 1.4rem;
-    line-height: 1;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.15s ease-in-out;
-    padding: 0;
-  }
-  
-  .modal-close-btn:hover {
-    background: #e5e7eb;
-    color: #111827;
-    transform: scale(1.05);
-  }
-  
-  .modal-body {
-    overflow-y: auto;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .category-block {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  
-  .cat-label {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #111827;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  
-  .cat-desc {
-    font-size: 0.85rem;
-    color: #6b7280;
-    margin: 0 0 4px 0;
-    line-height: 1.4;
-  }
-  
-  .cat-notes {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    resize: vertical;
-    font-size: 0.95rem;
-    color: #111827;
-    outline: none;
-    font-family: inherit;
-  }
-  
-  .cat-notes:focus {
-    border-color: #111827;
-  }
-  
-  .error {
-    color: #f87171;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-top: 4px;
-  }
-  
-  /* ==========================================================================
-     7. ANIMATIONS
-     ========================================================================== */
-  @keyframes slideUp {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-  /* ==========================================================================
-   SURGICAL COLOR OVERRIDES (Pasted at the very bottom)
-   ========================================================================== */
-
-/* 1. Main dark canvas & top space header */
-body, html, .app-shell {
-  background-color: #0d0e12 !important; /* Premium dark backdrop */
-  background-image: none !important;
-}
-.app-header {
-  background-image: url('./assets/space-bg.jpeg') !important;
-  background-size: cover !important;
-  background-position: center !important;
+h1 {
+  text-align: center;
 }
 
-/* 2. Fix text outside of cards so it doesn't vanish in dark mode */
-.judge-name { color: #ffffff !important; }
-.save-status { color: #34d399 !important; } /* Neon emerald */
-.muted, .muted.small, .screen p { color: #9ca3af !important; }
-
-/* 3. Turn the entry cards Gold (#E5CE71) and keep text dark */
-.rank-item {
-  background-color: #E5CE71 !important;
-  border-color: #cbb55f !important;
-}
-.rank-item *, .rank-item .position, .rank-item .entry-num, .rank-item .drag-handle {
-  color: #111827 !important; /* Deep charcoal text inside the cards */
-}
-.notes-btn {
-  background: rgba(0, 0, 0, 0.07) !important;
-  color: #111827 !important;
-  border: none !important;
+* {
+  box-sizing: border-box;
 }
 
-/* 4. Turn the notes modal Gold (#E5CE71) and keep text dark */
-.modal {
-  background-color: #E5CE71 !important;
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0d0e12;
 }
-.modal-title, .cat-label, .cat-desc, .modal-header * {
-  color: #111827 !important;
-}
-.modal-header {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
-}
-.modal-close-btn {
-  background: rgba(0, 0, 0, 0.07) !important;
-  color: #111827 !important;
-}
-.cat-notes {
-  background-color: #ffffff !important; /* Keeps input area crisp white */
-  color: #111827 !important;
-}
+
 /* ==========================================================================
-   RANKING ORDINAL SUFFIXES & MEDALS (Paste at the very bottom)
+   2. SPACE HEADER BANNER & LOGO
    ========================================================================== */
 
-/* Give the position area a little extra breathing room for the suffixes and medals */
+.app-header {
+  background-image: url('./assets/space-bg.jpeg');
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid #1f2937;
+}
+
+.app-logo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  max-height: 110px;
+}
+
+/* ==========================================================================
+   3. TYPOGRAPHY & LIGHT TEXT FOR DARK BACKGROUND
+   ========================================================================== */
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #1f2937;
+  padding: 32px 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
+}
+
+.rank-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.judge-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.save-status {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #34d399;
+  margin-top: 2px;
+}
+
+.muted, .screen p {
+  color: #9ca3af;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.muted.small {
+  color: #9ca3af;
+  font-size: 0.87rem;
+  margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   4. RANKING LIST & CARDS
+   ========================================================================== */
+
+.rank-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rank-item {
+  background: #E5CE71;
+  border: 1px solid #cbb55f;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.rank-item * {
+  color: #111827;
+}
+
+.drag-handle {
+  font-size: 1.25rem;
+  cursor: grab;
+  padding: 0 12px 0 4px;
+  user-select: none;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
 .position {
-  min-width: 60px !important;
-  display: inline-flex !important;
+  font-size: 1.1rem;
+  font-weight: 800;
+  min-width: 60px;
+  display: inline-flex;
   align-items: center;
 }
 
-/* 1st Place - Gold Medal */
+.entry-num {
+  font-size: 1.05rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+/* ==========================================================================
+   5. INTERACTIVE BUTTONS & INPUTS
+   ========================================================================== */
+
+.input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  background-color: #374151;
+  color: #ffffff;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #3b82f6;
+}
+
+.btn-primary, .btn-submit {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-primary:hover, .btn-submit:hover {
+  background-color: #059669;
+}
+
+.notes-btn {
+  background: rgba(0, 0, 0, 0.07);
+  border: none;
+  color: #111827;
+  border-radius: 8px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.notes-btn:hover {
+  background: rgba(0, 0, 0, 0.13);
+  transform: scale(1.03);
+}
+
+/* ==========================================================================
+   6. MODAL
+   ========================================================================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+}
+
+@media (min-width: 640px) {
+  .modal-overlay {
+    align-items: center;
+  }
+}
+
+.modal {
+  background-color: #E5CE71;
+  width: 100%;
+  max-width: 540px;
+  max-height: 85vh;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 640px) {
+  .modal {
+    border-radius: 16px;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.modal-header * {
+  color: #111827;
+}
+
+.modal-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.modal-close-btn {
+  background: rgba(0, 0, 0, 0.07);
+  border: none;
+  color: #111827;
+  font-size: 1.4rem;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  padding: 0;
+}
+
+.modal-close-btn:hover {
+  background: rgba(0, 0, 0, 0.13);
+  transform: scale(1.05);
+}
+
+.modal-body {
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.category-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cat-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cat-desc {
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+}
+
+.cat-notes {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #ffffff;
+  resize: vertical;
+  font-size: 0.95rem;
+  color: #111827;
+  outline: none;
+  font-family: inherit;
+}
+
+.cat-notes:focus {
+  border-color: #111827;
+}
+
+.error {
+  color: #f87171;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   7. ANIMATIONS
+   ========================================================================== */
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   8. DARK BACKGROUND & PAGE WRAPPER
+   ========================================================================== */
+
+body, html {
+  background-color: #0d0e12;
+}
+
+.page-wrapper,
+.rank-screen {
+  min-height: 100vh;
+  background: #0d0e12;
+}
+
+/* ==========================================================================
+   9. HEADER IMAGE
+   ========================================================================== */
+
+.top-header {
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+.top-header-image {
+  width: 100%;
+  display: block;
+  max-height: 80px;
+  object-fit: cover;
+  object-position: center;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   10. RANK SCREEN LAYOUT
+   ========================================================================== */
+
+.rank-header {
+  padding: 20px 16px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rank-list {
+  padding: 0 16px 24px;
+  list-style: none;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ==========================================================================
+   11. ORDINAL MEDALS
+   ========================================================================== */
+
 .rank-item:nth-child(1) .position::after {
-  content: "st 🥇";
+  content: "st \1F947";
   margin-left: 2px;
   font-size: 1.15rem;
 }
 
-/* 2nd Place - Silver Medal */
 .rank-item:nth-child(2) .position::after {
-  content: "nd 🥈";
+  content: "nd \1F948";
   margin-left: 2px;
   font-size: 1.15rem;
 }
 
-/* 3rd Place - Bronze Medal */
 .rank-item:nth-child(3) .position::after {
-  content: "rd 🥉";
+  content: "rd \1F949";
   margin-left: 2px;
   font-size: 1.15rem;
 }
 
-/* 4th Place and all positions below */
 .rank-item:nth-child(n+4) .position::after {
   content: "th";
   margin-left: 1px;
   font-size: 0.85rem;
   font-weight: 600;
-  opacity: 0.85; /* Makes the "th" slightly text-balanced */
+  opacity: 0.85;
 }
-/* ==========================================================================
-   MOTHERSHIP HEADER IMAGE
-   ========================================================================== */
-
-   .page-wrapper,
-   .rank-screen {
-     min-height: 100vh;
-     background: #0d0e12;
-   }
-   
-   .top-header {
-     width: 100%;
-     overflow: hidden;
-     background: #000;
-   }
-   
-   .top-header-image {
-     width: 100%;
-     display: block;
-     max-height: 80px;
-     object-fit: cover;
-     object-position: center;
-     border-bottom: 2px solid rgba(255,255,255,0.08);
-     box-shadow: 0 8px 30px rgba(0,0,0,0.45);
-   }
-   
-   .rank-header {
-     padding: 20px 16px 8px;
-   }
-   
-   .rank-list {
-     padding: 0 16px 24px;
-   }
