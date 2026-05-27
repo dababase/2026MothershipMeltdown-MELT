@@ -454,4 +454,3 @@ function saveStatusLabel(status) {
     default:
       return '';
   }
-}
