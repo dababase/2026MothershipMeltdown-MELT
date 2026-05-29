@@ -513,3 +513,73 @@ body, html {
   color: #6b7280;
   white-space: nowrap;
 }
+
+/* ==========================================================================
+   14. MODAL DIVIDER
+   ========================================================================== */
+
+.modal-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.12);
+  margin: 4px 0;
+}
+
+/* ==========================================================================
+   15. PLACEMENT BUTTONS
+   ========================================================================== */
+
+.placement-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.placement-btn {
+  flex: 1;
+  padding: 12px 8px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.15s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Mids — red */
+.placement-btn.placement-mids {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #dc2626;
+}
+.placement-btn.placement-mids.selected {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+/* Average — blue */
+.placement-btn.placement-average {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.35);
+  color: #2563eb;
+}
+.placement-btn.placement-average.selected {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+/* Fire — green */
+.placement-btn.placement-fire {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #059669;
+}
+.placement-btn.placement-fire.selected {
+  background: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}

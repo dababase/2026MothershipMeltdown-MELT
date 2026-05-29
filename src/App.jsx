@@ -314,8 +314,24 @@ function EntryModal({ entryNum, notes, onClose, onSave }) {
     onSave(next);
   };
 
+  const updateTopLevel = (key, value) => {
+    const next = { ...local, [key]: value };
+    setLocal(next);
+    onSave(next);
+  };
+
+  const handlePlacement = (value) => {
+    updateTopLevel('placement', local.placement === value ? null : value);
+  };
+
   const runningTotal = totalScore(local);
   const maxTotal = CATEGORIES.reduce((sum, c) => sum + c.maxScore, 0);
+
+  const PLACEMENT_OPTIONS = [
+    { value: 'mids',    label: 'Mids',    className: 'placement-mids' },
+    { value: 'average', label: 'Average', className: 'placement-average' },
+    { value: 'fire',    label: 'Fire 🔥',  className: 'placement-fire' },
+  ];
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -354,6 +370,34 @@ function EntryModal({ entryNum, notes, onClose, onSave }) {
               />
             </div>
           ))}
+
+          <div className="modal-divider" />
+
+          <div className="category-block">
+            <label className="cat-label">Where does this entry place?</label>
+            <div className="placement-options">
+              {PLACEMENT_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  className={`placement-btn ${opt.className}${local.placement === opt.value ? ' selected' : ''}`}
+                  onClick={() => handlePlacement(opt.value)}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="category-block">
+            <label className="cat-label">Overall Notes</label>
+            <textarea
+              className="cat-notes"
+              value={local.overall_notes || ''}
+              onChange={(e) => updateTopLevel('overall_notes', e.target.value)}
+              placeholder="Overall impressions..."
+              rows={3}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -417,12 +461,15 @@ function totalScore(entryNotes) {
   return total;
 }
 
-// Only true if judge has entered a score > 0 or written any notes text
+// Only true if judge has entered a score > 0, written any notes, or selected a placement
 function hasAnyNote(entryNotes) {
   if (!entryNotes) return false;
-  return Object.values(entryNotes).some(
-    (v) => v && ((typeof v.score === 'number' && v.score > 0) || (v.text && v.text.trim().length > 0))
-  );
+  if (entryNotes.placement) return true;
+  if (entryNotes.overall_notes && entryNotes.overall_notes.trim().length > 0) return true;
+  return CATEGORIES.some((cat) => {
+    const v = entryNotes[cat.key];
+    return v && ((typeof v.score === 'number' && v.score > 0) || (v.text && v.text.trim().length > 0));
+  });
 }
 
 function saveStatusLabel(status) {
