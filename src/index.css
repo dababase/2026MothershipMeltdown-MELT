@@ -1,4 +1,15 @@
 /* ==========================================================================
+   0. CUSTOM FONTS
+   ========================================================================== */
+
+@font-face {
+  font-family: 'SnyderSpeedBrush';
+  src: url('/SnyderSpeedBrush.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* ==========================================================================
    1. BASE RESETS & UNIVERSAL STYLES
    ========================================================================== */
 
@@ -117,6 +128,11 @@ body, html {
   color: #111827;
 }
 
+.rank-item.unscored {
+  background: #EDEADB;
+  border-color: #D6D1BF;
+}
+
 .position {
   font-size: 1.1rem;
   font-weight: 800;
@@ -126,9 +142,11 @@ body, html {
 }
 
 .entry-num {
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-family: 'SnyderSpeedBrush', sans-serif;
+  font-size: 1.2rem;
+  font-weight: normal;
   flex: 1;
+  text-transform: uppercase;
 }
 
 /* ==========================================================================
@@ -239,6 +257,11 @@ body, html {
 
 .modal-header * {
   color: #111827;
+}
+
+.modal-header h2 {
+  font-family: 'SnyderSpeedBrush', sans-serif;
+  font-weight: normal;
 }
 
 .modal-title {
@@ -364,9 +387,8 @@ body, html {
 .top-header-image {
   width: 100%;
   display: block;
-  max-height: 80px;
-  object-fit: cover;
-  object-position: center;
+  max-height: 120px;
+  object-fit: contain;
   border-bottom: 2px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
 }
@@ -461,57 +483,83 @@ body, html {
   align-items: center;
 }
 
-/* Stepper control: [−] value / max [+] */
-.stepper {
+/* Score number input */
+.score-input-row {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.stepper-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background: rgba(0, 0, 0, 0.08);
-  color: #111827;
-  font-size: 1.3rem;
+.score-input {
+  width: 72px;
+  padding: 6px 10px;
+  font-size: 1rem;
   font-weight: 700;
-  line-height: 1;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.1s ease, transform 0.1s ease;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-}
-
-.stepper-btn:active {
-  background: rgba(0, 0, 0, 0.2);
-  transform: scale(0.92);
-}
-
-.stepper-btn:disabled {
-  opacity: 0.3;
-  cursor: default;
-  transform: none;
-}
-
-.stepper-value {
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: #111827;
-  min-width: 32px;
   text-align: center;
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  outline: none;
+  -moz-appearance: textfield;
 }
 
-.stepper-max {
+.score-input::-webkit-outer-spin-button,
+.score-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.score-input:focus {
+  border-color: #111827;
+}
+
+.score-max {
   font-size: 0.8rem;
   font-weight: 600;
   color: #6b7280;
   white-space: nowrap;
+}
+
+/* Sort toggle */
+.sort-toggle {
+  display: flex;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
+  margin: 0 16px 4px;
+}
+
+.sort-opt {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sort-opt.active {
+  background: #1f2937;
+  color: #ffffff;
+}
+
+/* Tie warning highlight */
+.rank-item.tie-warning {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.4), 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* Hide medals in sequential mode */
+.rank-list.no-medals .position::after {
+  content: '' !important;
 }
 
 /* ==========================================================================
