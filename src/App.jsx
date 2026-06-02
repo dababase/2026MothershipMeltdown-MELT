@@ -48,7 +48,7 @@ export default function App() {
     if (!code) return;
 
     const { data, error: dbErr } = await supabase
-      .from('ranking_submissions')
+      .from('melt_submissions')
       .select('*')
       .eq('event_code', EVENT_CODE)
       .eq('judge_code', code)
@@ -105,7 +105,7 @@ export default function App() {
       // If localStorage had newer data, sync it back to Supabase immediately
       if (restoredFromLocal) {
         supabase
-          .from('ranking_submissions')
+          .from('melt_submissions')
           .update({
             ranking: finalEntries,
             notes: finalNotes,
@@ -122,7 +122,7 @@ export default function App() {
     if (!name) return;
 
     const { error: dbErr } = await supabase
-      .from('ranking_submissions')
+      .from('melt_submissions')
       .update({
         judge_name: name,
         last_updated: new Date().toISOString(),
@@ -154,7 +154,7 @@ export default function App() {
       }
 
       const { error: dbErr } = await supabase
-        .from('ranking_submissions')
+        .from('melt_submissions')
         .update({
           ranking: newEntries,
           notes: newNotes,
@@ -229,7 +229,7 @@ export default function App() {
     );
 
     const { error: dbErr } = await supabase
-      .from('ranking_submissions')
+      .from('melt_submissions')
       .update({
         submitted_at: new Date().toISOString(),
         ranking: finalRanking,
@@ -376,7 +376,7 @@ function ScoringScreen({ judgeName, entries, notes, onNotesUpdate, onSubmit, sav
           className={`sort-opt${sortOrder === 'sequential' ? ' active' : ''}`}
           onClick={() => setSortOrder('sequential')}
         >
-          1–50 Order
+          1–20 Order
         </button>
       </div>
 
