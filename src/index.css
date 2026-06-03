@@ -631,3 +631,162 @@ body, html {
   border-color: #10b981;
   color: #ffffff;
 }
+
+/* ==========================================================================
+   RESULTS PAGE
+   ========================================================================== */
+
+.results-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
+
+.results-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.results-header h1 { font-size: 1.75rem; font-weight: 800; margin: 0 0 4px; }
+.results-header h2 { font-size: 1.2rem; font-weight: 600; color: #6b7280; margin: 0 0 8px; }
+
+.btn-print {
+  margin-top: 12px;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #1f2937;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-print:hover { background: #374151; }
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.results-table th {
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.results-table td { padding: 9px 12px; border-bottom: 1px solid #e5e7eb; }
+
+.results-table tr.top-1 td { background: #fef9c3; }
+.results-table tr.top-2 td { background: #f1f5f9; }
+.results-table tr.top-3 td { background: #fff7ed; }
+
+.results-table .rank-cell  { font-size: 1.1rem; white-space: nowrap; }
+.results-table .entry-cell { font-weight: 700; }
+.results-table .score-cell { text-align: right; }
+.results-table .total-cell { font-weight: 700; text-align: right; }
+.results-table .avg-cell   { text-align: right; }
+.results-table .range-cell { text-align: right; white-space: nowrap; color: #4b5563; font-size: 0.85rem; }
+.results-table .out-of     { color: #9ca3af; font-size: 0.78rem; }
+
+.results-footer { text-align: center; font-size: 0.78rem; margin-top: 8px; }
+
+.entry-breakdown { margin-top: 48px; }
+
+.breakdown-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0 0 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.breakdown-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.breakdown-card.top-1 { border-color: #eab308; }
+.breakdown-card.top-2 { border-color: #94a3b8; }
+.breakdown-card.top-3 { border-color: #f97316; }
+
+.breakdown-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #f9fafb;
+  flex-wrap: wrap;
+}
+
+.breakdown-card.top-1 .breakdown-header { background: #fef9c3; }
+.breakdown-card.top-2 .breakdown-header { background: #f1f5f9; }
+.breakdown-card.top-3 .breakdown-header { background: #fff7ed; }
+
+.breakdown-rank  { font-size: 1.3rem; }
+.breakdown-entry { font-weight: 800; font-size: 1rem; flex: 1; }
+.breakdown-overall { font-size: 0.875rem; color: #374151; }
+.breakdown-range { font-size: 0.875rem; color: #6b7280; }
+.breakdown-top-judges { font-size: 0.875rem; color: #6b7280; white-space: nowrap; }
+
+.breakdown-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+
+.breakdown-table th {
+  background: #f3f4f6;
+  padding: 8px 16px;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #6b7280;
+}
+
+.breakdown-table td { padding: 8px 16px; border-top: 1px solid #f3f4f6; }
+.breakdown-table .rank-cell  { font-size: 1rem; }
+.breakdown-table .score-cell { text-align: right; }
+.breakdown-table .out-of     { color: #9ca3af; font-size: 0.78rem; }
+
+/* Results link on submitted screen */
+.results-link-block {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.btn-results {
+  display: inline-block;
+  padding: 0.65rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: #10b981;
+  color: #fff;
+  transition: background 0.15s ease;
+}
+
+.btn-results:hover { background: #059669; }
+
+.btn-results-disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media print {
+  .btn-print { display: none; }
+  .breakdown-card { break-inside: avoid; }
+}

@@ -298,20 +298,7 @@ export default function App() {
   }
 
   if (step === 'submitted') {
-    return (
-      <div className="page-wrapper">
-        <div className="top-header">
-          <img src="/mothership.jpeg" alt="Mothership Meltdown" className="top-header-image" />
-        </div>
-        <div className="screen">
-          <h1>Submitted</h1>
-          <p>Thanks, {judgeName}. Your scores have been locked in.</p>
-          <p className="muted">
-            Submitted {new Date(submittedAt).toLocaleString()}.
-          </p>
-        </div>
-      </div>
-    );
+    return <SubmittedScreen judgeName={judgeName} submittedAt={submittedAt} table={TABLE} />;
   }
 
   return (
@@ -324,6 +311,46 @@ export default function App() {
       saveStatus={saveStatus}
       lastSavedAt={lastSavedAt}
     />
+  );
+}
+
+function SubmittedScreen({ judgeName, submittedAt, table }) {
+  const [allDone, setAllDone] = useState(false);
+
+  useEffect(() => {
+    const check = async () => {
+      const { data } = await supabase
+        .from(table)
+        .select('submitted_at')
+        .eq('event_code', EVENT_CODE);
+      if (data && data.length > 0 && data.every(r => r.submitted_at)) {
+        setAllDone(true);
+      }
+    };
+    check();
+    const interval = setInterval(check, 30000);
+    return () => clearInterval(interval);
+  }, [table]);
+
+  return (
+    <div className="page-wrapper">
+      <div className="top-header">
+        <img src="/mothership.jpeg" alt="Mothership Meltdown" className="top-header-image" />
+      </div>
+      <div className="screen">
+        <h1>Submitted</h1>
+        <p>Thanks, {judgeName}. Your scores have been locked in.</p>
+        <p className="muted">Submitted {new Date(submittedAt).toLocaleString()}.</p>
+        <div className="results-link-block">
+          <p className="muted">Once all judges have submitted, results will be available below.</p>
+          {allDone ? (
+            <a className="btn-results" href="/results">View Results →</a>
+          ) : (
+            <span className="btn-results btn-results-disabled">Results not yet available</span>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
