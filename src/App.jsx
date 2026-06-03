@@ -298,7 +298,7 @@ export default function App() {
   }
 
   if (step === 'submitted') {
-    return <SubmittedScreen judgeName={judgeName} submittedAt={submittedAt} table={TABLE} />;
+    return <SubmittedScreen judgeName={judgeName} submittedAt={submittedAt} table="melt_submissions" />;
   }
 
   return (
