@@ -752,7 +752,8 @@ body, html {
 
 .breakdown-table td { padding: 8px 16px; border-top: 1px solid #f3f4f6; }
 .breakdown-table .rank-cell  { font-size: 1rem; }
-.breakdown-table .score-cell { text-align: right; }
+.breakdown-table th:last-child { text-align: right; }
+.breakdown-table .score-cell { text-align: right; white-space: nowrap; color: #94a3b8; }
 .breakdown-table .out-of     { color: #9ca3af; font-size: 0.78rem; }
 
 /* Results link on submitted screen */
