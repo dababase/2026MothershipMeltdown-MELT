@@ -147,7 +147,7 @@ export default function Results() {
                   <tr>
                     <th>Category</th>
                     <th>Cat. Rank</th>
-                    <th>Avg Score</th>
+                    <th className="score-cell">Avg Score</th>
                   </tr>
                 </thead>
                 <tbody>
