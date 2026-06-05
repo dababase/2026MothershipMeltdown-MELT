@@ -102,9 +102,7 @@ export default function Results() {
             <tr>
               <th>Rank</th>
               <th>Entry</th>
-              {CATEGORIES.map(cat => <th key={cat.key}>{cat.label}</th>)}
-              <th>Total</th>
-              <th>Avg / Cat</th>
+              <th>Avg Score</th>
               <th>Score Range</th>
             </tr>
           </thead>
@@ -113,10 +111,6 @@ export default function Results() {
               <tr key={row.entry} className={row.rank <= 3 ? `top-${row.rank}` : ''}>
                 <td className="rank-cell">{medal(row.rank)}</td>
                 <td className="entry-cell">Entry #{row.entry}</td>
-                {CATEGORIES.map(cat => (
-                  <td key={cat.key} className="score-cell">{row.catAvgs[cat.key]}</td>
-                ))}
-                <td className="total-cell">{row.totalAvg} <span className="out-of">/ {maxTotal}</span></td>
                 <td className="avg-cell">{row.perCatAvg} <span className="out-of">/ {MAX_SCORE}</span></td>
                 <td className="range-cell">{row.rangeMin}–{row.rangeMax}</td>
               </tr>
