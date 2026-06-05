@@ -1,6 +1,6 @@
 export const EVENT_CODE = 'MM26-MELT'
 export const EVENT_NAME = 'Mothership Meltdown 2026 — Melt'
-export const ENTRY_COUNT = 20
+export const ENTRY_COUNT = 21
 
 export const CATEGORIES = [
   {
