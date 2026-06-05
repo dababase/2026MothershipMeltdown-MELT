@@ -7,6 +7,8 @@ const TABLE = 'melt_submissions';
 
 export default function Results() {
   const [results, setResults] = useState([]);
+  const [judgeStats, setJudgeStats] = useState([]);
+  const [outliers, setOutliers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [judgeCount, setJudgeCount] = useState(0);
 
@@ -26,7 +28,12 @@ export default function Results() {
         }
 
         const totals = {};
+        const judgeMap = {};
+
         for (const row of data) {
+          const jName = judgeNames[row.judge_code] || `Judge ${row.judge_code}`;
+          if (!judgeMap[row.judge_code]) judgeMap[row.judge_code] = { name: jName, entryTotals: [] };
+
           for (const [entryNum, entryNotes] of Object.entries(row.notes || {})) {
             if (!totals[entryNum]) totals[entryNum] = { catScores: {}, judgeTotals: [] };
             let judgeTotal = 0;
@@ -40,7 +47,10 @@ export default function Results() {
                 judgeScored++;
               }
             }
-            if (judgeScored > 0) totals[entryNum].judgeTotals.push({ name: judgeNames[row.judge_code] || `Judge ${row.judge_code}`, total: judgeTotal });
+            if (judgeScored > 0) {
+              totals[entryNum].judgeTotals.push({ name: jName, total: judgeTotal });
+              judgeMap[row.judge_code].entryTotals.push({ entry: Number(entryNum), total: judgeTotal });
+            }
           }
         }
 
@@ -58,7 +68,9 @@ export default function Results() {
           const rangeMin = sorted.length ? sorted[sorted.length - 1].total : 0;
           const rangeMax = sorted.length ? sorted[0].total : 0;
           const topJudges = sorted.slice(0, 2);
-          return { entry: Number(entryNum), catAvgs, totalAvg: Math.round(totalAvg * 10) / 10, perCatAvg, rangeMin, rangeMax, topJudges };
+          const highJudge = sorted[0] || null;
+          const lowJudge = sorted.length > 1 ? sorted[sorted.length - 1] : null;
+          return { entry: Number(entryNum), catAvgs, totalAvg: Math.round(totalAvg * 10) / 10, perCatAvg, rangeMin, rangeMax, topJudges, highJudge, lowJudge };
         });
 
         rows.sort((a, b) => b.totalAvg - a.totalAvg);
@@ -69,7 +81,30 @@ export default function Results() {
           sorted.forEach((r, i) => { r[`catRank_${cat.key}`] = i + 1; });
         }
 
+        const fieldAvg = rows.length ? rows.reduce((s, r) => s + r.totalAvg, 0) / rows.length : 0;
+
+        const stats = Object.values(judgeMap).map(({ name, entryTotals }) => {
+          const avg = entryTotals.length ? entryTotals.reduce((s, e) => s + e.total, 0) / entryTotals.length : 0;
+          const sorted = [...entryTotals].sort((a, b) => b.total - a.total);
+          return {
+            name,
+            entryCount: entryTotals.length,
+            avgTotal: Math.round(avg * 10) / 10,
+            delta: Math.round((avg - fieldAvg) * 10) / 10,
+            highEntry: sorted[0] || null,
+            lowEntry: sorted[sorted.length - 1] || null,
+          };
+        });
+        stats.sort((a, b) => b.avgTotal - a.avgTotal);
+
+        const outliersRows = [...rows]
+          .filter(r => r.rangeMax - r.rangeMin > 0)
+          .sort((a, b) => (b.rangeMax - b.rangeMin) - (a.rangeMax - a.rangeMin))
+          .slice(0, 10);
+
         setResults(rows);
+        setJudgeStats(stats);
+        setOutliers(outliersRows);
         setLoading(false);
       });
   }, []);
@@ -156,6 +191,68 @@ export default function Results() {
               </table>
             </div>
           ))}
+        </div>
+      )}
+
+      {!loading && judgeStats.length > 0 && (
+        <div className="analysis-section">
+          <h2 className="breakdown-title">Judge Analysis</h2>
+          <p className="muted analysis-subtitle">Average total score per entry · delta vs. field average ({Math.round(judgeStats.reduce((s,j)=>s+j.avgTotal,0)/judgeStats.length*10)/10})</p>
+          <table className="results-table judge-analysis-table">
+            <thead>
+              <tr>
+                <th>Judge</th>
+                <th>Entries</th>
+                <th>Avg Total</th>
+                <th>vs. Field</th>
+                <th>Highest Entry</th>
+                <th>Lowest Entry</th>
+              </tr>
+            </thead>
+            <tbody>
+              {judgeStats.map(j => (
+                <tr key={j.name}>
+                  <td className="entry-cell">{j.name}</td>
+                  <td className="rank-cell">{j.entryCount}</td>
+                  <td className="avg-cell">{j.avgTotal}</td>
+                  <td className={`delta-cell ${j.delta > 0 ? 'delta-high' : j.delta < 0 ? 'delta-low' : ''}`}>
+                    {j.delta > 0 ? `+${j.delta}` : j.delta}
+                  </td>
+                  <td className="range-cell">{j.highEntry ? `#${j.highEntry.entry} (${j.highEntry.total})` : '—'}</td>
+                  <td className="range-cell">{j.lowEntry ? `#${j.lowEntry.entry} (${j.lowEntry.total})` : '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {!loading && outliers.length > 0 && (
+        <div className="analysis-section">
+          <h2 className="breakdown-title">Most Contested Entries</h2>
+          <p className="muted analysis-subtitle">Entries where judges disagreed most · ranked by score spread</p>
+          <table className="results-table outlier-table">
+            <thead>
+              <tr>
+                <th>Entry</th>
+                <th>Overall Rank</th>
+                <th>Spread</th>
+                <th>High Judge</th>
+                <th>Low Judge</th>
+              </tr>
+            </thead>
+            <tbody>
+              {outliers.map(row => (
+                <tr key={row.entry}>
+                  <td className="entry-cell">Entry #{row.entry}</td>
+                  <td className="rank-cell">{medal(row.rank)}</td>
+                  <td className="avg-cell">{row.rangeMax - row.rangeMin} pts</td>
+                  <td className="delta-cell delta-high">{row.highJudge ? `${row.highJudge.name} (${row.highJudge.total})` : '—'}</td>
+                  <td className="delta-cell delta-low">{row.lowJudge ? `${row.lowJudge.name} (${row.lowJudge.total})` : '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 

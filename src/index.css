@@ -700,6 +700,13 @@ body, html {
 
 .entry-breakdown { margin-top: 48px; }
 
+.analysis-section { margin-top: 48px; }
+.analysis-subtitle { font-size: 0.85rem; margin: -12px 0 16px; }
+.delta-cell { font-weight: 600; font-size: 0.88rem; }
+.delta-high { color: #16a34a; }
+.delta-low { color: #dc2626; }
+.judge-analysis-table td, .outlier-table td { font-size: 0.88rem; }
+
 .breakdown-title {
   font-size: 1.2rem;
   font-weight: 800;
