@@ -7,41 +7,7 @@ function displayScore(rawTotal) {
   return Number((rawTotal / CATEGORIES.length).toFixed(1));
 }
 
-function isLocalStorageAvailable() {
-  try {
-    const test = '__storage_test__';
-    localStorage.setItem(test, test);
-    localStorage.removeItem(test);
-    return true;
-  } catch (_) {
-    return false;
-  }
-}
-
-function BrowserWarningScreen() {
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  return (
-    <div className="page-wrapper">
-      <div className="top-header">
-        <img src="/mothership.jpeg" alt="Mothership Meltdown" className="top-header-image" />
-      </div>
-      <div className="screen">
-        <div className="browser-warning">
-          <div className="browser-warning-icon">⚠️</div>
-          <h2>Switch Browsers Before Scoring</h2>
-          <p>Your current browser is in <strong>private or restricted mode</strong>, which prevents your scores from being saved locally as a backup.</p>
-          <p>Please open this page in <strong>{isIOS ? 'Chrome for iOS' : 'Google Chrome'}</strong> and make sure you are <strong>not</strong> in private/incognito mode.</p>
-          <p className="muted">This protects your scores from being lost if your connection drops.</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function App() {
-  if (!isLocalStorageAvailable()) {
-    return <BrowserWarningScreen />;
-  }
   const [step, setStep] = useState('code');
   const [judgeCode, setJudgeCode] = useState('');
   const [judgeName, setJudgeName] = useState('');
