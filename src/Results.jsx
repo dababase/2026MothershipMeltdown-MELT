@@ -124,7 +124,7 @@ export default function Results() {
           ? <p className="muted">Loading…</p>
           : results.length === 0
             ? <p className="muted">No submitted scores yet.</p>
-            : <p className="muted">{results.length} entries · {judgeCount} judges · {CATEGORIES.length} categories · scored out of {MAX_SCORE} each</p>
+            : <p className="muted">{results.length} entries · {CATEGORIES.length} categories · scored out of {MAX_SCORE} each</p>
         }
         {!loading && results.length > 0 && (
           <button className="btn-print" onClick={() => window.print()}>🖨 Print / Save as PDF</button>

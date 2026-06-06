@@ -803,6 +803,17 @@ body, html {
 .breakdown-card.top-2 .breakdown-header { background: #f1f5f9; }
 .breakdown-card.top-3 .breakdown-header { background: #fff7ed; }
 
+/* non-podium cards: light text on dark background */
+.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-header { background: #1a1c22; }
+.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-entry { color: #f1f5f9; }
+.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-overall { color: #d1d5db; }
+.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-range { color: #9ca3af; }
+.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-top-judges { color: #9ca3af; }
+.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-table th { background: #111318; color: #6b7280; }
+.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-table td { color: #e5e7eb; border-top-color: #2a2d35; }
+.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-table .score-cell { color: #9ca3af; }
+.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-table .out-of { color: #6b7280; }
+
 .breakdown-rank  { font-size: 1.3rem; }
 .breakdown-entry { font-weight: 800; font-size: 1rem; flex: 1; }
 .breakdown-overall { font-size: 0.875rem; color: #374151; }
