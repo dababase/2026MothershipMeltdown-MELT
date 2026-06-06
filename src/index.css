@@ -156,9 +156,9 @@ body, html {
 }
 
 .entry-saved-at {
-  font-size: 0.7rem;
-  color: rgba(241, 245, 249, 0.45);
-  margin-top: 1px;
+  font-size: 0.75rem;
+  color: rgba(241, 245, 249, 0.7);
+  margin-top: 2px;
 }
 
 /* ==========================================================================
