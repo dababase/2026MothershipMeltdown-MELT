@@ -453,6 +453,7 @@ function EntryRow({ id, position, hasNotes, score, isTied, onTap }) {
 
 function EntryModal({ entryNum, notes, onClose, onSave }) {
   const [local, setLocal] = useState(notes);
+  const [resetKey, setResetKey] = useState(0);
 
   const updateField = (key, field, value) => {
     const next = {
@@ -498,6 +499,7 @@ function EntryModal({ entryNum, notes, onClose, onSave }) {
               <div className="cat-header">
                 <label className="cat-label">{cat.label}</label>
                 <ScoreInput
+                  key={resetKey}
                   value={local[cat.key]?.score ?? 0}
                   max={cat.maxScore}
                   onChange={(val) => updateField(cat.key, 'score', val)}
@@ -550,6 +552,7 @@ function EntryModal({ entryNum, notes, onClose, onSave }) {
               if (window.confirm('Clear all scores and notes for this entry?')) {
                 setLocal({});
                 onSave({});
+                setResetKey(k => k + 1);
               }
             }}
           >
