@@ -745,20 +745,25 @@ body, html {
 
 .results-table td { padding: 9px 12px; border-bottom: 1px solid #e5e7eb; }
 
-.results-table tbody tr:not(.top-1):not(.top-2):not(.top-3) td { color: #e5e7eb; }
-.results-table tbody tr:not(.top-1):not(.top-2):not(.top-3) .range-cell { color: #9ca3af; }
-.results-table tbody tr:not(.top-1):not(.top-2):not(.top-3) .out-of { color: #6b7280; }
-.results-table tr.top-1 td { background: #fef9c3; }
-.results-table tr.top-2 td { background: #f1f5f9; }
-.results-table tr.top-3 td { background: #fff7ed; }
+/* all rows: light text */
+.results-table tbody td { color: #e5e7eb; }
+.results-table tbody .range-cell { color: #9ca3af; }
+.results-table tbody .out-of { color: #6b7280; }
+/* top-3 rows: dark bg, colored entry text */
+.results-table tr.top-1 td { background: transparent; }
+.results-table tr.top-2 td { background: transparent; }
+.results-table tr.top-3 td { background: transparent; }
+.results-table tr.top-1 .entry-cell { color: #F5C518; }
+.results-table tr.top-2 .entry-cell { color: #A8B8C8; }
+.results-table tr.top-3 .entry-cell { color: #C07941; }
 
 .results-table .rank-cell  { font-size: 1.1rem; white-space: nowrap; }
 .results-table .entry-cell { font-weight: 700; }
 .results-table .score-cell { text-align: right; }
 .results-table .total-cell { font-weight: 700; text-align: right; }
 .results-table .avg-cell   { text-align: right; }
-.results-table .range-cell { text-align: right; white-space: nowrap; color: #4b5563; font-size: 0.85rem; }
-.results-table .out-of     { color: #9ca3af; font-size: 0.78rem; }
+.results-table .range-cell { text-align: right; white-space: nowrap; font-size: 0.85rem; }
+.results-table .out-of     { font-size: 0.78rem; }
 
 .results-footer { text-align: center; font-size: 0.78rem; margin-top: 8px; }
 
