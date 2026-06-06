@@ -541,6 +541,20 @@ function EntryModal({ entryNum, notes, onClose, onSave }) {
               rows={3}
             />
           </div>
+
+          <div className="modal-divider" />
+
+          <button
+            className="btn-clear-entry"
+            onClick={() => {
+              if (window.confirm('Clear all scores and notes for this entry?')) {
+                setLocal({});
+                onSave({});
+              }
+            }}
+          >
+            Clear Entry Scores
+          </button>
         </div>
       </div>
     </div>

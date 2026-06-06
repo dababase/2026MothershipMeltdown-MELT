@@ -573,6 +573,24 @@ body, html {
   margin: 4px 0;
 }
 
+.btn-clear-entry {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 8px;
+  color: #ef4444;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background 0.15s;
+}
+
+.btn-clear-entry:hover {
+  background: rgba(239, 68, 68, 0.08);
+}
+
 /* ==========================================================================
    15. PLACEMENT BUTTONS
    ========================================================================== */
