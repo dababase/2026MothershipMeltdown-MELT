@@ -40,6 +40,18 @@ export default function App() {
     return () => clearInterval(interval);
   }, [step, entries, notes, saveToSupabase]);
 
+  // Sync when judge returns to the tab/app (visibility change)
+  useEffect(() => {
+    if (step !== 'rank') return;
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        saveToSupabase(entries, notes);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, [step, entries, notes, saveToSupabase]);
+
   // Warn before closing/refreshing if a save is in flight or failed
   useEffect(() => {
     const handleBeforeUnload = (e) => {
@@ -317,6 +329,7 @@ export default function App() {
       entries={entries}
       notes={notes}
       onNotesUpdate={handleNotesUpdate}
+      onModalClose={() => saveToSupabase(entries, notes)}
       onSubmit={handleSubmit}
       saveStatus={saveStatus}
       lastSavedAt={lastSavedAt}
@@ -364,7 +377,7 @@ function SubmittedScreen({ judgeName, submittedAt, table }) {
   );
 }
 
-function ScoringScreen({ judgeName, entries, notes, onNotesUpdate, onSubmit, saveStatus, lastSavedAt }) {
+function ScoringScreen({ judgeName, entries, notes, onNotesUpdate, onModalClose, onSubmit, saveStatus, lastSavedAt }) {
   const [openEntry, setOpenEntry] = useState(null);
   const [sortOrder, setSortOrder] = useState('rank');
 
@@ -440,7 +453,10 @@ function ScoringScreen({ judgeName, entries, notes, onNotesUpdate, onSubmit, sav
         <EntryModal
           entryNum={openEntry}
           notes={notes[openEntry] || {}}
-          onClose={() => setOpenEntry(null)}
+          onClose={() => {
+            setOpenEntry(null);
+            onModalClose();
+          }}
           onSave={(updated) => onNotesUpdate(openEntry, updated)}
         />
       )}
