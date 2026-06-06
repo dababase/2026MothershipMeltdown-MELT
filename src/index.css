@@ -584,6 +584,38 @@ body, html {
   margin: 4px 0;
 }
 
+.browser-warning {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.browser-warning-icon {
+  font-size: 2.5rem;
+}
+
+.browser-warning h2 {
+  color: #ef4444;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.browser-warning p {
+  color: #f1f5f9;
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.browser-warning strong {
+  color: #fff;
+}
+
 .btn-clear-entry {
   display: block;
   width: 100%;
