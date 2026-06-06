@@ -228,19 +228,6 @@ export default function App() {
   };
 
   const handleSubmit = async () => {
-    const ties = findTies(entries, notes);
-    if (ties.length > 0) {
-      const lines = ties.map(({ score, entries: group }) => {
-        const list = group.map((n) => `#${n}`).join(', ');
-        return score === 0
-          ? `  • Entries ${list} — not yet scored (0/100)`
-          : `  • Entries ${list} — tied at ${displayScore(score)}/100`;
-      });
-      window.alert(
-        `Please resolve these ties before submitting:\n\n${lines.join('\n')}`
-      );
-      return;
-    }
 
     const ok = window.confirm(
       'Submit your final scores? You will not be able to edit after this.'
