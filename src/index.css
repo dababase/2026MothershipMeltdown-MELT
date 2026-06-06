@@ -804,8 +804,9 @@ body, html {
 .breakdown-card.top-3 .breakdown-header { background: #fff7ed; }
 
 /* non-podium cards: light text on dark background */
-.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-header { background: #1a1c22; }
+.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-header { background: #1a1c22; color: #f1f5f9; }
 .breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-entry { color: #f1f5f9; }
+.breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-rank { color: #f1f5f9; }
 .breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-overall { color: #d1d5db; }
 .breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-range { color: #9ca3af; }
 .breakdown-card:not(.top-1):not(.top-2):not(.top-3) .breakdown-top-judges { color: #9ca3af; }
