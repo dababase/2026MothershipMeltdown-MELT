@@ -30,6 +30,16 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Periodic force-sync every 60s — re-pushes current state to Supabase
+  // even if no changes were made, to recover from any failed saves
+  useEffect(() => {
+    if (step !== 'rank') return;
+    const interval = setInterval(() => {
+      saveToSupabase(entries, notes);
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [step, entries, notes, saveToSupabase]);
+
   // Warn before closing/refreshing if a save is in flight or failed
   useEffect(() => {
     const handleBeforeUnload = (e) => {
