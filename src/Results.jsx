@@ -166,27 +166,29 @@ export default function Results() {
         )}
       </div>
 
-      {!loading && results.length > 0 && (
-        <table className="results-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Entry</th>
-              <th>Avg Score</th>
-              <th>Score Range</th>
-            </tr>
-          </thead>
-          <tbody>
-            {results.map(row => (
-              <tr key={row.entry} className={row.rank <= 3 ? `top-${row.rank}` : ''}>
-                <td className="rank-cell">{medal(row.rank)}</td>
-                <td className="entry-cell">{entryLabel(row.entry)}</td>
-                <td className="avg-cell">{row.perCatAvg} <span className="out-of">/ {MAX_SCORE}</span></td>
-                <td className="range-cell">{row.rangeMin}–{row.rangeMax}</td>
+      {!loading && pointsResults.length > 0 && (
+        <div className="analysis-section">
+          <h2 className="breakdown-title">Official Rankings</h2>
+          <p className="muted analysis-subtitle">1st place = 1 pt · 21st place = 21 pts · lowest score wins</p>
+          <table className="results-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Entry</th>
+                <th>Total Points</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {pointsResults.map(row => (
+                <tr key={row.entry} className={row.pointsRank <= 3 ? `top-${row.pointsRank}` : ''}>
+                  <td className="rank-cell">{medal(row.pointsRank)}</td>
+                  <td className="entry-cell">{entryLabel(row.entry)}</td>
+                  <td className="avg-cell">{row.totalPoints} <span className="out-of">pts</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       {!loading && results.length > 0 && (
@@ -291,24 +293,26 @@ export default function Results() {
         </div>
       )}
 
-      {!loading && pointsResults.length > 0 && (
+      {!loading && results.length > 0 && (
         <div className="analysis-section">
-          <h2 className="breakdown-title">Ranking Points Model</h2>
-          <p className="muted analysis-subtitle">1st place = 1 pt · 21st place = 21 pts · lowest score wins</p>
+          <h2 className="breakdown-title">Average Score Rankings</h2>
+          <p className="muted analysis-subtitle">Average score per category across all judges</p>
           <table className="results-table">
             <thead>
               <tr>
                 <th>Rank</th>
                 <th>Entry</th>
-                <th>Total Points</th>
+                <th>Avg Score</th>
+                <th>Score Range</th>
               </tr>
             </thead>
             <tbody>
-              {pointsResults.map(row => (
-                <tr key={row.entry} className={row.pointsRank <= 3 ? `top-${row.pointsRank}` : ''}>
-                  <td className="rank-cell">{medal(row.pointsRank)}</td>
+              {results.map(row => (
+                <tr key={row.entry} className={row.rank <= 3 ? `top-${row.rank}` : ''}>
+                  <td className="rank-cell">{medal(row.rank)}</td>
                   <td className="entry-cell">{entryLabel(row.entry)}</td>
-                  <td className="avg-cell">{row.totalPoints} <span className="out-of">pts</span></td>
+                  <td className="avg-cell">{row.perCatAvg} <span className="out-of">/ {MAX_SCORE}</span></td>
+                  <td className="range-cell">{row.rangeMin}–{row.rangeMax}</td>
                 </tr>
               ))}
             </tbody>
