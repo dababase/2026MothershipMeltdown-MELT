@@ -12,6 +12,23 @@ export default function Results() {
   const [loading, setLoading] = useState(true);
   const [judgeCount, setJudgeCount] = useState(0);
   const [pointsResults, setPointsResults] = useState([]);
+  const [entryNames, setEntryNames] = useState({});
+
+  const entryLabel = (num) => {
+    const e = entryNames[num];
+    if (!e) return `Entry #${num}`;
+    return e.strain ? `${e.maker} — ${e.strain}` : e.maker;
+  };
+
+  useEffect(() => {
+    supabase.from('melt_entries').select('entry_number, maker, strain').then(({ data }) => {
+      if (data) {
+        const map = {};
+        data.forEach(e => { map[e.entry_number] = { maker: e.maker, strain: e.strain }; });
+        setEntryNames(map);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     supabase
@@ -163,7 +180,7 @@ export default function Results() {
             {results.map(row => (
               <tr key={row.entry} className={row.rank <= 3 ? `top-${row.rank}` : ''}>
                 <td className="rank-cell">{medal(row.rank)}</td>
-                <td className="entry-cell">Entry #{row.entry}</td>
+                <td className="entry-cell">{entryLabel(row.entry)}</td>
                 <td className="avg-cell">{row.perCatAvg} <span className="out-of">/ {MAX_SCORE}</span></td>
                 <td className="range-cell">{row.rangeMin}–{row.rangeMax}</td>
               </tr>
@@ -179,7 +196,7 @@ export default function Results() {
             <div key={row.entry} className={`breakdown-card ${row.rank <= 3 ? `top-${row.rank}` : ''}`}>
               <div className="breakdown-header">
                 <span className="breakdown-rank">{medal(row.rank)}</span>
-                <span className="breakdown-entry">Entry #{row.entry}</span>
+                <span className="breakdown-entry">{entryLabel(row.entry)}</span>
                 <span className="breakdown-overall">Overall avg: <strong>{row.perCatAvg}</strong> / {MAX_SCORE}</span>
                 <span className="breakdown-range">Range: <strong>{row.rangeMin}–{row.rangeMax}</strong></span>
                 {row.topJudges[0] && (
@@ -236,8 +253,8 @@ export default function Results() {
                   <td className={`delta-cell ${j.delta > 0 ? 'delta-high' : j.delta < 0 ? 'delta-low' : ''}`}>
                     {j.delta > 0 ? `+${j.delta}` : j.delta}
                   </td>
-                  <td className="range-cell">{j.highEntry ? `#${j.highEntry.entry} (${j.highEntry.total})` : '—'}</td>
-                  <td className="range-cell">{j.lowEntry ? `#${j.lowEntry.entry} (${j.lowEntry.total})` : '—'}</td>
+                  <td className="range-cell">{j.highEntry ? `${entryLabel(j.highEntry.entry)} (${j.highEntry.total})` : '—'}</td>
+                  <td className="range-cell">{j.lowEntry ? `${entryLabel(j.lowEntry.entry)} (${j.lowEntry.total})` : '—'}</td>
                 </tr>
               ))}
             </tbody>
@@ -262,7 +279,7 @@ export default function Results() {
             <tbody>
               {outliers.map(row => (
                 <tr key={row.entry}>
-                  <td className="entry-cell">Entry #{row.entry}</td>
+                  <td className="entry-cell">{entryLabel(row.entry)}</td>
                   <td className="rank-cell">{medal(row.rank)}</td>
                   <td className="avg-cell">{row.rangeMax - row.rangeMin} pts</td>
                   <td className="delta-cell delta-high">{row.highJudge ? `${row.highJudge.name} (${row.highJudge.total})` : '—'}</td>
@@ -290,7 +307,7 @@ export default function Results() {
               {pointsResults.map(row => (
                 <tr key={row.entry} className={row.pointsRank <= 3 ? `top-${row.pointsRank}` : ''}>
                   <td className="rank-cell">{medal(row.pointsRank)}</td>
-                  <td className="entry-cell">Entry #{row.entry}</td>
+                  <td className="entry-cell">{entryLabel(row.entry)}</td>
                   <td className="avg-cell">{row.totalPoints} <span className="out-of">pts</span></td>
                 </tr>
               ))}
