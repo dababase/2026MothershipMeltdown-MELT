@@ -22,6 +22,50 @@ export default function App() {
   const retryTimer = useRef(null);
   const retryCount = useRef(0);
 
+  const saveToSupabase = useCallback(
+    async (newEntries, newNotes) => {
+      setSaveStatus('saving');
+      const now = new Date().toISOString();
+
+      // Mirror to localStorage first — instant, offline-safe fallback
+      try {
+        localStorage.setItem(
+          localKey(EVENT_CODE, judgeCode),
+          JSON.stringify({ ranking: newEntries, notes: newNotes, lastUpdated: now })
+        );
+      } catch (_) {
+        // Private browsing or storage full — skip silently
+      }
+
+      const { error: dbErr } = await supabase
+        .from('melt_submissions')
+        .update({
+          ranking: newEntries,
+          notes: newNotes,
+          last_updated: now,
+        })
+        .eq('event_code', EVENT_CODE)
+        .eq('judge_code', judgeCode);
+
+      if (dbErr) {
+        setSaveStatus('error');
+        // Exponential backoff retry: 2s, 4s, 8s, 16s, 30s (max 5 attempts)
+        if (retryCount.current < 5) {
+          const delay = Math.min(30000, 2000 * Math.pow(2, retryCount.current));
+          retryCount.current += 1;
+          retryTimer.current = setTimeout(() => {
+            saveToSupabase(newEntries, newNotes);
+          }, delay);
+        }
+      } else {
+        retryCount.current = 0;
+        setLastSavedAt(new Date());
+        setSaveStatus('saved');
+      }
+    },
+    [judgeCode]
+  );
+
   // Tick every 30s so "saved X ago" display stays fresh
   useEffect(() => {
     const interval = setInterval(() => {
@@ -159,50 +203,6 @@ export default function App() {
 
     setStep('rank');
   };
-
-  const saveToSupabase = useCallback(
-    async (newEntries, newNotes) => {
-      setSaveStatus('saving');
-      const now = new Date().toISOString();
-
-      // Mirror to localStorage first — instant, offline-safe fallback
-      try {
-        localStorage.setItem(
-          localKey(EVENT_CODE, judgeCode),
-          JSON.stringify({ ranking: newEntries, notes: newNotes, lastUpdated: now })
-        );
-      } catch (_) {
-        // Private browsing or storage full — skip silently
-      }
-
-      const { error: dbErr } = await supabase
-        .from('melt_submissions')
-        .update({
-          ranking: newEntries,
-          notes: newNotes,
-          last_updated: now,
-        })
-        .eq('event_code', EVENT_CODE)
-        .eq('judge_code', judgeCode);
-
-      if (dbErr) {
-        setSaveStatus('error');
-        // Exponential backoff retry: 2s, 4s, 8s, 16s, 30s (max 5 attempts)
-        if (retryCount.current < 5) {
-          const delay = Math.min(30000, 2000 * Math.pow(2, retryCount.current));
-          retryCount.current += 1;
-          retryTimer.current = setTimeout(() => {
-            saveToSupabase(newEntries, newNotes);
-          }, delay);
-        }
-      } else {
-        retryCount.current = 0;
-        setLastSavedAt(new Date());
-        setSaveStatus('saved');
-      }
-    },
-    [judgeCode]
-  );
 
   const scheduleSave = useCallback(
     (newEntries, newNotes) => {
