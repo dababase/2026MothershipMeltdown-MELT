@@ -11,11 +11,12 @@ export default function Results() {
   const [outliers, setOutliers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [judgeCount, setJudgeCount] = useState(0);
+  const [pointsResults, setPointsResults] = useState([]);
 
   useEffect(() => {
     supabase
       .from(TABLE)
-      .select('judge_code, judge_name, notes')
+      .select('judge_code, judge_name, notes, ranking')
       .not('submitted_at', 'is', null)
       .then(({ data, error: dbErr }) => {
         if (dbErr || !data) { setLoading(false); return; }
@@ -102,9 +103,25 @@ export default function Results() {
           .sort((a, b) => (b.rangeMax - b.rangeMin) - (a.rangeMax - a.rangeMin))
           .slice(0, 10);
 
+        // Ranking-points model: 1st = 1 pt, 2nd = 2 pts … lowest wins
+        const pointsMap = {};
+        for (const row of data) {
+          const ranking = row.ranking || [];
+          ranking.forEach((entryNum, idx) => {
+            const key = String(entryNum);
+            if (!pointsMap[key]) pointsMap[key] = { entry: Number(entryNum), totalPoints: 0, judgeCount: 0 };
+            pointsMap[key].totalPoints += idx + 1;
+            pointsMap[key].judgeCount += 1;
+          });
+        }
+        const pointsRows = Object.values(pointsMap)
+          .sort((a, b) => a.totalPoints - b.totalPoints);
+        pointsRows.forEach((r, i) => r.pointsRank = i + 1);
+
         setResults(rows);
         setJudgeStats(stats);
         setOutliers(outliersRows);
+        setPointsResults(pointsRows);
         setLoading(false);
       });
   }, []);
@@ -250,6 +267,31 @@ export default function Results() {
                   <td className="avg-cell">{row.rangeMax - row.rangeMin} pts</td>
                   <td className="delta-cell delta-high">{row.highJudge ? `${row.highJudge.name} (${row.highJudge.total})` : '—'}</td>
                   <td className="delta-cell delta-low">{row.lowJudge ? `${row.lowJudge.name} (${row.lowJudge.total})` : '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {!loading && pointsResults.length > 0 && (
+        <div className="analysis-section">
+          <h2 className="breakdown-title">Ranking Points Model</h2>
+          <p className="muted analysis-subtitle">1st place = 1 pt · 21st place = 21 pts · lowest score wins</p>
+          <table className="results-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Entry</th>
+                <th>Total Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pointsResults.map(row => (
+                <tr key={row.entry} className={row.pointsRank <= 3 ? `top-${row.pointsRank}` : ''}>
+                  <td className="rank-cell">{medal(row.pointsRank)}</td>
+                  <td className="entry-cell">Entry #{row.entry}</td>
+                  <td className="avg-cell">{row.totalPoints} <span className="out-of">pts</span></td>
                 </tr>
               ))}
             </tbody>
