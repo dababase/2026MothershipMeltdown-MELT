@@ -66,9 +66,8 @@ export default function App() {
 
   const handleCodeSubmit = async () => {
     setError('');
-    const code = judgeCode.trim().toUpperCase();
+    const code = judgeCode.trim();
     if (!code) return;
-    setJudgeCode(code);
 
     const { data, error: dbErr } = await supabase
       .from('melt_submissions')
@@ -251,21 +250,18 @@ export default function App() {
       (a, b) => totalScore(notes[b]) - totalScore(notes[a])
     );
 
-    const submittedAt = new Date().toISOString();
-    const { error: dbErr, data: updateData } = await supabase
+    const { error: dbErr } = await supabase
       .from('melt_submissions')
       .update({
-        submitted_at: submittedAt,
+        submitted_at: new Date().toISOString(),
         ranking: finalRanking,
         notes,
-        last_updated: submittedAt,
+        last_updated: new Date().toISOString(),
       })
       .eq('event_code', EVENT_CODE)
-      .eq('judge_code', judgeCode)
-      .select('submitted_at')
-      .single();
+      .eq('judge_code', judgeCode);
 
-    if (dbErr || !updateData?.submitted_at) {
+    if (dbErr) {
       setError('Submit failed. Try again.');
       return;
     }
