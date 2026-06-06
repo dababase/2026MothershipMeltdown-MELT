@@ -142,12 +142,23 @@ body, html {
   align-items: center;
 }
 
+.entry-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .entry-num {
   font-family: 'SnyderSpeedBrush', sans-serif;
   font-size: 1.2rem;
   font-weight: normal;
-  flex: 1;
   text-transform: uppercase;
+}
+
+.entry-saved-at {
+  font-size: 0.7rem;
+  color: rgba(241, 245, 249, 0.45);
+  margin-top: 1px;
 }
 
 /* ==========================================================================

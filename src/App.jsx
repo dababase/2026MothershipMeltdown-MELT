@@ -420,6 +420,7 @@ function ScoringScreen({ judgeName, entries, notes, onNotesUpdate, onSubmit, sav
             hasNotes={hasAnyNote(notes[entryNum])}
             score={totalScore(notes[entryNum])}
             isTied={tiedScores.has(totalScore(notes[entryNum]))}
+            savedAt={notes[entryNum]?._saved_at || null}
             onTap={() => setOpenEntry(entryNum)}
           />
         ))}
@@ -437,12 +438,15 @@ function ScoringScreen({ judgeName, entries, notes, onNotesUpdate, onSubmit, sav
   );
 }
 
-function EntryRow({ id, position, hasNotes, score, isTied, onTap }) {
+function EntryRow({ id, position, hasNotes, score, isTied, savedAt, onTap }) {
   const unscored = score === 0;
   return (
     <li className={`rank-item${isTied ? ' tie-warning' : ''}${unscored ? ' unscored' : ''}`}>
       <span className="position">{position}</span>
-      <span className="entry-num">Entry #{id}</span>
+      <div className="entry-info">
+        <span className="entry-num">Entry #{id}</span>
+        {savedAt && <span className="entry-saved-at">scored {timeAgo(new Date(savedAt))}</span>}
+      </div>
       <span className="entry-score">{displayScore(score)}/100</span>
       <button className="notes-btn" onClick={onTap} aria-label="Score and add notes">
         {hasNotes ? '📝' : '＋'}
@@ -455,19 +459,23 @@ function EntryModal({ entryNum, notes, onClose, onSave }) {
   const [local, setLocal] = useState(notes);
   const [resetKey, setResetKey] = useState(0);
 
+  const saveWithTimestamp = (next) => {
+    const stamped = { ...next, _saved_at: new Date().toISOString() };
+    setLocal(stamped);
+    onSave(stamped);
+  };
+
   const updateField = (key, field, value) => {
     const next = {
       ...local,
       [key]: { ...(local[key] || {}), [field]: value },
     };
-    setLocal(next);
-    onSave(next);
+    saveWithTimestamp(next);
   };
 
   const updateTopLevel = (key, value) => {
     const next = { ...local, [key]: value };
-    setLocal(next);
-    onSave(next);
+    saveWithTimestamp(next);
   };
 
   const handlePlacement = (value) => {
