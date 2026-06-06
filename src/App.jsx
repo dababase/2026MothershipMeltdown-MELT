@@ -110,8 +110,9 @@ export default function App() {
 
   const handleCodeSubmit = async () => {
     setError('');
-    const code = judgeCode.trim();
+    const code = judgeCode.trim().toUpperCase();
     if (!code) return;
+    setJudgeCode(code);
 
     const { data, error: dbErr } = await supabase
       .from('melt_submissions')
