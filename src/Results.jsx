@@ -17,7 +17,7 @@ export default function Results() {
   const entryLabel = (num) => {
     const e = entryNames[num];
     if (!e) return `Entry #${num}`;
-    return e.strain ? `${e.maker} — ${e.strain}` : e.maker;
+    return e.strain ? `#${num} · ${e.maker} — ${e.strain}` : `#${num} · ${e.maker}`;
   };
 
   useEffect(() => {
