@@ -85,10 +85,24 @@ export default function Results() {
           const sorted = [...judgeTotals].sort((a, b) => b.total - a.total);
           const rangeMin = sorted.length ? sorted[sorted.length - 1].total : 0;
           const rangeMax = sorted.length ? sorted[0].total : 0;
-          const topJudges = sorted.slice(0, 2);
           const highJudge = sorted[0] || null;
           const lowJudge = sorted.length > 1 ? sorted[sorted.length - 1] : null;
-          return { entry: Number(entryNum), catAvgs, totalAvg: Math.round(totalAvg * 10) / 10, perCatAvg, rangeMin, rangeMax, topJudges, highJudge, lowJudge };
+          return { entry: Number(entryNum), catAvgs, totalAvg: Math.round(totalAvg * 10) / 10, perCatAvg, rangeMin, rangeMax, highJudge, lowJudge, topRankers: [] };
+        });
+
+        // Build topRankers: for each entry, which judges ranked it highest (lowest index in their ranking array)
+        const rankingByEntry = {};
+        for (const row of data) {
+          const jName = judgeNames[row.judge_code] || `Judge ${row.judge_code}`;
+          (row.ranking || []).forEach((entryNum, idx) => {
+            const key = String(entryNum);
+            if (!rankingByEntry[key]) rankingByEntry[key] = [];
+            rankingByEntry[key].push({ name: jName, rankPosition: idx + 1 });
+          });
+        }
+        rows.forEach(r => {
+          const rankers = (rankingByEntry[String(r.entry)] || []).sort((a, b) => a.rankPosition - b.rankPosition);
+          r.topRankers = rankers.slice(0, 2);
         });
 
         rows.sort((a, b) => b.totalAvg - a.totalAvg);
@@ -202,10 +216,10 @@ export default function Results() {
                 <span className="breakdown-entry">{entryLabel(row.entry)}</span>
                 <span className="breakdown-overall">Overall avg: <strong>{row.perCatAvg}</strong> / {MAX_SCORE}</span>
                 <span className="breakdown-range">Range: <strong>{row.rangeMin}–{row.rangeMax}</strong></span>
-                {row.topJudges[0] && (
+                {row.topRankers[0] && (
                   <span className="breakdown-top-judges">
-                    🥇 {row.topJudges[0].name} <span className="out-of">({row.topJudges[0].total})</span>
-                    {row.topJudges[1] && <> · 🥈 {row.topJudges[1].name} <span className="out-of">({row.topJudges[1].total})</span></>}
+                    Top ranked by: {row.topRankers[0].name} <span className="out-of">({ordinal(row.topRankers[0].rankPosition)})</span>
+                    {row.topRankers[1] && <> · {row.topRankers[1].name} <span className="out-of">({ordinal(row.topRankers[1].rankPosition)})</span></>}
                   </span>
                 )}
               </div>
