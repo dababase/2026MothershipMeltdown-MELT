@@ -152,6 +152,7 @@ export default function Results() {
       <div className="top-header">
         <img src="/mothership.jpeg" alt="Mothership Meltdown" className="top-header-image" />
       </div>
+      <p className="dababase-credit">Judging data & analysis by dababase</p>
       <div className="results-header">
         <h1>{EVENT_NAME}</h1>
         <h2>Final Results</h2>
@@ -322,7 +323,7 @@ export default function Results() {
 
       {!loading && results.length > 0 && (
         <p className="results-footer muted">
-          Generated {new Date().toLocaleString()} · {EVENT_CODE}
+          Generated {new Date().toLocaleString()} · {EVENT_CODE} · Judging data & analysis by dababase
         </p>
       )}
     </div>

@@ -766,6 +766,7 @@ body, html {
 .results-table .out-of     { font-size: 0.78rem; }
 
 .results-footer { text-align: center; font-size: 0.78rem; margin-top: 8px; }
+.dababase-credit { text-align: center; font-size: 0.75rem; color: #64748b; letter-spacing: 0.04em; text-transform: uppercase; margin: 8px 0 0; }
 
 .entry-breakdown { margin-top: 48px; }
 
