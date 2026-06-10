@@ -343,7 +343,7 @@ export default function Results() {
 
       {!loading && results.length > 0 && (
         <p className="results-footer muted">
-          Generated {new Date().toLocaleString()} · {EVENT_CODE} · Judging data & analysis by dababase
+          MM26-Melt Judging UI, data and analysis by dababase
         </p>
       )}
     </div>
