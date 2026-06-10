@@ -149,6 +149,12 @@ export default function Results() {
           .sort((a, b) => a.totalPoints - b.totalPoints);
         pointsRows.forEach((r, i) => r.pointsRank = i + 1);
 
+        // Stamp pointsRank onto each score row and re-sort breakdowns to match official ranking
+        const pointsRankMap = {};
+        pointsRows.forEach(r => { pointsRankMap[r.entry] = r.pointsRank; });
+        rows.forEach(r => { r.rank = pointsRankMap[r.entry] ?? r.rank; });
+        rows.sort((a, b) => a.rank - b.rank);
+
         setResults(rows);
         setJudgeStats(stats);
         setOutliers(outliersRows);
