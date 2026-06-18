@@ -887,3 +887,60 @@ body, html {
   .btn-print { display: none; }
   .breakdown-card { break-inside: avoid; }
 }
+/* ==========================================================================
+   TAKEAWAY SECTION
+   ========================================================================== */
+
+.takeaway-section {
+  background: #111318;
+  border: 1px solid #1f2937;
+  border-left: 3px solid #EF9F27;
+  border-radius: 8px;
+  padding: 28px 32px;
+}
+
+.takeaway-lead {
+  font-size: 1.05rem;
+  color: #e5e7eb;
+  line-height: 1.65;
+  margin: 0 0 24px 0;
+  font-style: italic;
+}
+
+.takeaway-subhead {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #EF9F27;
+  margin: 24px 0 8px 0;
+  font-family: 'Space Mono', monospace, -apple-system, sans-serif;
+}
+
+.takeaway-body {
+  font-size: 0.95rem;
+  color: #d1d5db;
+  line-height: 1.7;
+  margin: 0 0 8px 0;
+}
+
+.takeaway-note {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 12px;
+}
+
+.takeaway-conclusion {
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+.takeaway-table {
+  margin: 16px 0;
+  max-width: 320px;
+}
+
+.takeaway-total-row td {
+  border-top: 1px solid #374151 !important;
+  padding-top: 10px !important;
+}
