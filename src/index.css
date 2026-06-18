@@ -886,7 +886,10 @@ body, html {
 @media print {
   .btn-print { display: none; }
   .breakdown-card { break-inside: avoid; }
-}
+  .takeaway-table,
+  .results-table {
+    page-break-inside: avoid;
+  }
 /* ==========================================================================
    TAKEAWAY SECTION
    ========================================================================== */
