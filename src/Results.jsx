@@ -90,7 +90,6 @@ export default function Results() {
           return { entry: Number(entryNum), catAvgs, totalAvg: Math.round(totalAvg * 10) / 10, perCatAvg, rangeMin, rangeMax, highJudge, lowJudge, topRankers: [] };
         });
 
-        // Build topRankers: for each entry, which judges ranked it highest (lowest index in their ranking array)
         const rankingByEntry = {};
         for (const row of data) {
           const jName = judgeNames[row.judge_code] || `Judge ${row.judge_code}`;
@@ -134,7 +133,6 @@ export default function Results() {
           .sort((a, b) => (b.rangeMax - b.rangeMin) - (a.rangeMax - a.rangeMin))
           .slice(0, 10);
 
-        // Ranking-points model: 1st = 1 pt, 2nd = 2 pts … lowest wins
         const pointsMap = {};
         for (const row of data) {
           const ranking = row.ranking || [];
@@ -149,7 +147,6 @@ export default function Results() {
           .sort((a, b) => a.totalPoints - b.totalPoints);
         pointsRows.forEach((r, i) => r.pointsRank = i + 1);
 
-        // Stamp pointsRank onto each score row and re-sort breakdowns to match official ranking
         const pointsRankMap = {};
         pointsRows.forEach(r => { pointsRankMap[r.entry] = r.pointsRank; });
         rows.forEach(r => { r.rank = pointsRankMap[r.entry] ?? r.rank; });
@@ -206,6 +203,55 @@ export default function Results() {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {!loading && pointsResults.length > 0 && (
+        <div className="analysis-section takeaway-section">
+          <h2 className="breakdown-title">Why Polychrome (#15) Won</h2>
+          <p className="takeaway-lead">Polychrome didn't dominate any single category — it won by being everyone's top pick. That's exactly what the rank-points system rewards.</p>
+
+          <h3 className="takeaway-subhead">The consistency story</h3>
+          <p className="takeaway-body">Five of seven judges placed it in their top 6. Three ranked it 2nd, one ranked it 1st, and even the lowest rank it received was 13th. That floor matters — no entry can survive seven judges if even two or three of them rank it in the bottom half.</p>
+
+          <table className="results-table takeaway-table">
+            <thead>
+              <tr>
+                <th>Judge</th>
+                <th>Rank Given</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { judge: 'Matt Darby', rank: '1st' },
+                { judge: 'GTDave',     rank: '2nd' },
+                { judge: 'HFF',        rank: '2nd' },
+                { judge: 'Tito',       rank: '2nd' },
+                { judge: 'Travis',     rank: '5th' },
+                { judge: 'Darby',      rank: '6th' },
+                { judge: 'Chancho',    rank: '13th' },
+              ].map(({ judge, rank }) => (
+                <tr key={judge}>
+                  <td className="entry-cell">{judge}</td>
+                  <td className="rank-cell">{rank}</td>
+                </tr>
+              ))}
+              <tr className="takeaway-total-row">
+                <td className="entry-cell"><strong>Total</strong></td>
+                <td className="rank-cell"><strong>31 points</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <p className="takeaway-body takeaway-note">Even with Chancho's 13th, six judges carried it to the top.</p>
+
+          <h3 className="takeaway-subhead">Why it didn't win any scoring category</h3>
+          <p className="takeaway-body">Category averages reward absolute height — one judge scoring a 97 aroma pulls the average up regardless of what everyone else thought. Polychrome's scores were consistently great (85–89 across every category), but never the single highest anywhere. It didn't need to be.</p>
+
+          <h3 className="takeaway-subhead">The perfect contrast — #12 Rythem Extracts</h3>
+          <p className="takeaway-body">Rythem won three scoring categories (aroma, taste, experience) but finished 13th overall with 80 rank-points. Tito scored it 97/95/98 across those categories, which dominated the averages — but every other judge ranked it 9th–16th. One outlier judge can win you a category. You can't win rank-points with one fan.</p>
+
+          <h3 className="takeaway-subhead">The takeaway</h3>
+          <p className="takeaway-body takeaway-conclusion">This is the argument for rank-points. It surfaces the entry most judges agreed was exceptional — not the entry one judge loved most.</p>
         </div>
       )}
 
